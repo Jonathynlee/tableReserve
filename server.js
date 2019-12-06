@@ -55,7 +55,7 @@ var reservation = [
   // Displays all waiting list
  app.get("/api/waitinglist", function(req, res) {
      if (waitingList.length===0){
-        res.sendFile(path.join(__dirname, "view.html"));
+        return res.sendFile(path.join(__dirname, "view.html"));
      }    
      return res.json(waitingList);
   });
@@ -75,3 +75,9 @@ var reservation = [
   
     return res.json(false);
   });*/
+
+  // Starts the server to begin listening
+// =============================================================
+app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
+  });
