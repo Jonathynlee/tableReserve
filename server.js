@@ -1,40 +1,24 @@
-// Dependencies
-// =============================================================
-var express = require("express");
-var path = require("path");
 
-// Sets up the Express App
-// =============================================================
-var app = express();
-var PORT = 3000;
 
-// Sets up the Express app to handle data parsing
-app.use(express.urlencoded({ extended: true }));
+app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
+  });
+=======
+/// Start Express Server
+const express = require('express');
+const app = express();
+const PORT = 3030;
+
+
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+//Create app as an instance of express
+let waitList = [{}];
+let reservationList = [{}];
 
-//reservations will be held in reservation array
-//make pseudo data
-var reservation = [
-    {
-      customerName: "Jonathyn Major",
-      phoneNumber: "1234566677",
-      customerEmail: "j@a",
-      customerID: 1,
-    },
-    {
-        customerName: "Karen M",
-        phoneNumber: "1934566677",
-        customerEmail: "k@a",
-        customerID: 2,
-      },
-   
-  ];
-  //An Array for the Waiting List
-  //Data Should be added to reservation until it reaches 5.
-  //push data to waitlist after 5 customers
-  var waitingList = [];
 
-  
+
+//create post request that changes the data needed
 
   // Routes
 // =============================================================
@@ -49,35 +33,36 @@ var reservation = [
 
   // Displays all reservations
  app.get("/api/tables", function(req, res) {
-    return res.json(reservation);
+    return res.json(reservationList);
   });
 
   // Displays all waiting list
  app.get("/api/waitinglist", function(req, res) {
-     if (waitingList.length===0){
+     if (waitList.length===0){
         return res.sendFile(path.join(__dirname, "view.html"));
      }    
-     return res.json(waitingList);
+     return res.json(waitList);
   });
   
-  
-  // Displays a single character, or returns false
-  /*app.get("/api/characters/:character", function(req, res) {
-    var chosen = req.params.character;
-  
-    console.log(chosen);
-  
-    for (var i = 0; i < characters.length; i++) {
-      if (chosen === characters[i].routeName) {
-        return res.json(characters[i]);
-      }
+app.post("/tables", function(req, res) {
+    // req.body hosts is equal to the JSON post sent from the user
+    // This works because of our body parsing middleware
+    var newTable = req.body;
+    // Using a RegEx Pattern to remove spaces from newCharacter
+    // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+    //newTable.routeName = newTable.name.replace(/\s+/g, "").toLowerCase();
+    console.log(newTable);
+    if(reservationList.length<5){
+        reservationList.push(newTable);
+    }else{
+        waitList.push(newTable);
     }
-  
-    return res.json(false);
-  });*/
-
-  // Starts the server to begin listening
-// =============================================================
-app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
+    
+    res.json(reservationList);
   });
+
+
+
+///Set Port for express server
+app.listen(PORT, function(){
+    console.log(`App listening on Port ${PORT}`);
