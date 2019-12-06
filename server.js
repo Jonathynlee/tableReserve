@@ -3,7 +3,7 @@
 app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
-=======
+//=======
 /// Start Express Server
 const express = require('express');
 const app = express();
@@ -25,6 +25,10 @@ let reservationList = [{}];
 // Basic route that sends the user first to the Main Page
   app.get("/", function(req, res) {
     res.sendFile(path.join(__dirname, "view.html"));
+  });
+
+  app.get("/tables", function(req, res) {
+    res.sendFile(path.join(__dirname, "tableView.html"));
   });
 
   app.get("/reserve", function(req, res) {
