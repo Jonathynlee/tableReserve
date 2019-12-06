@@ -16,7 +16,7 @@ $("#search-btn").on("click", function() {
       } else {
         $("#name").text(
           "The force is not strong with this one. Your character was not found.");
-        $("#stats").hide();
+        $("#stats").hide();;
       }
     });
   });
